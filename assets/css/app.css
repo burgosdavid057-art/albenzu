@@ -1,0 +1,250 @@
+/* ============================================================
+   Albenzu · sistema visual
+   Crema + rojo de la marca, tipografía Fraunces / Manrope.
+   ============================================================ */
+
+:root{
+  --rojo:#B7202A; --rojo-dark:#8E1A22; --rojo-deep:#5E1216;
+  --crema:#F6F0E2; --crema-2:#EFE6D2; --crema-3:#E4D7BC;
+  --carbon:#241A16; --maiz:#E0A526; --hoja:#3E5C3A;
+  --sombra: 0 18px 44px -20px rgba(36,26,22,.45);
+}
+
+html{ scroll-behavior:smooth; }
+body{ overflow-x:hidden; }
+.tabular{ font-variant-numeric: tabular-nums; }
+[x-cloak]{ display:none !important; }
+.scrollbar-none{ scrollbar-width:none; }
+.scrollbar-none::-webkit-scrollbar{ display:none; }
+
+/* ── Textura de fondo: papel de estraza muy sutil ─────────────────────────── */
+.paper{
+  background-color:var(--crema);
+  background-image:
+    radial-gradient(circle at 20% 15%, rgba(183,32,42,.05), transparent 45%),
+    radial-gradient(circle at 82% 70%, rgba(224,165,38,.07), transparent 40%);
+}
+.paper-dark{
+  background-color:var(--carbon);
+  background-image:
+    radial-gradient(circle at 15% 20%, rgba(183,32,42,.20), transparent 45%),
+    radial-gradient(circle at 85% 80%, rgba(224,165,38,.10), transparent 45%);
+}
+
+/* ── Botones ─────────────────────────────────────────────────────────────── */
+.btn{
+  display:inline-flex; align-items:center; justify-content:center; gap:.5rem;
+  height:2.75rem; padding:0 1.4rem; border-radius:999px;
+  font-weight:700; font-size:.875rem; line-height:1; letter-spacing:.01em;
+  transition:transform .25s cubic-bezier(.2,.8,.2,1), background-color .25s, color .25s, box-shadow .25s;
+  white-space:nowrap; cursor:pointer;
+}
+.btn:hover{ transform:translateY(-2px); }
+.btn:active{ transform:translateY(0); }
+.btn-rojo{ background:var(--rojo); color:var(--crema); box-shadow:0 10px 24px -12px rgba(183,32,42,.9); }
+.btn-rojo:hover{ background:var(--rojo-dark); box-shadow:0 16px 30px -12px rgba(183,32,42,.95); }
+.btn-carbon{ background:var(--carbon); color:var(--crema); }
+.btn-carbon:hover{ background:#3A2A23; }
+.btn-ghost{ border:1.5px solid rgba(36,26,22,.2); color:var(--carbon); background:transparent; }
+.btn-ghost:hover{ border-color:var(--rojo); color:var(--rojo); }
+.btn-crema{ background:var(--crema); color:var(--carbon); }
+.btn-crema:hover{ background:#fff; }
+.btn-lg{ height:3.35rem; padding:0 2rem; font-size:.95rem; }
+.btn:disabled{ opacity:.45; pointer-events:none; }
+
+/* ── Navegación ──────────────────────────────────────────────────────────── */
+.nav-link{
+  position:relative; padding:.55rem .95rem; border-radius:999px;
+  font-size:.875rem; font-weight:600; color:rgba(36,26,22,.7);
+  transition:color .2s;
+}
+.nav-link::after{
+  content:''; position:absolute; left:.95rem; right:.95rem; bottom:.3rem; height:2px;
+  background:var(--rojo); transform:scaleX(0); transform-origin:left; transition:transform .3s cubic-bezier(.2,.8,.2,1);
+}
+.nav-link:hover{ color:var(--rojo); }
+.nav-link:hover::after, .nav-link.is-active::after{ transform:scaleX(1); }
+.nav-link.is-active{ color:var(--rojo); }
+#nav.is-stuck{ box-shadow:0 10px 30px -22px rgba(36,26,22,.7); }
+
+/* ── Títulos editoriales ─────────────────────────────────────────────────── */
+.eyebrow{
+  display:inline-flex; align-items:center; gap:.6rem;
+  font-size:.68rem; font-weight:800; letter-spacing:.34em; text-transform:uppercase;
+  color:var(--rojo);
+}
+.eyebrow::before{ content:''; width:2rem; height:1px; background:currentColor; opacity:.6; }
+.h-display{ font-family:'Fraunces',Georgia,serif; font-weight:900; line-height:.94; letter-spacing:-.025em; }
+.h-script{ font-family:'Fraunces',Georgia,serif; font-style:italic; font-weight:900; }
+
+/* Palabras que se revelan de abajo hacia arriba */
+.split-line{ display:block; overflow:hidden; }
+.split-line > span{ display:inline-block; will-change:transform; }
+
+/* ── Reveal on scroll ─────────────────────────────────────────────────────
+   El estado oculto lo pone app.js con estilos en línea, no el CSS: así, si el
+   JS no carga o falla, el contenido se ve igual y nunca queda invisible. */
+
+/* ── Tarjeta de plato ────────────────────────────────────────────────────── */
+.dish{
+  position:relative; display:flex; flex-direction:column; overflow:hidden;
+  background:#fff; border-radius:1.35rem; border:1px solid rgba(36,26,22,.08);
+  transition:transform .4s cubic-bezier(.2,.8,.2,1), box-shadow .4s, border-color .3s;
+}
+.dish:hover{ transform:translateY(-6px); box-shadow:var(--sombra); border-color:rgba(183,32,42,.35); }
+.dish__media{ position:relative; aspect-ratio:4/3; overflow:hidden; background:var(--crema-2); }
+.dish__media img{ width:100%; height:100%; object-fit:cover; transition:transform .8s cubic-bezier(.2,.8,.2,1); }
+.dish:hover .dish__media img{ transform:scale(1.07); }
+.dish__body{ padding:1.1rem 1.2rem 1.25rem; display:flex; flex-direction:column; flex:1; }
+.dish--agotado{ opacity:.55; }
+.dish--agotado .dish__media::after{
+  content:'Agotado hoy'; position:absolute; inset:auto 0 0 0; padding:.5rem;
+  background:rgba(36,26,22,.85); color:var(--crema); font-size:.75rem; font-weight:700; text-align:center;
+}
+
+.chip{
+  display:inline-flex; align-items:center; gap:.3rem; padding:.2rem .6rem;
+  border-radius:999px; font-size:.62rem; font-weight:800; letter-spacing:.09em; text-transform:uppercase;
+}
+.chip-rojo{ background:rgba(183,32,42,.1); color:var(--rojo); }
+.chip-maiz{ background:rgba(224,165,38,.18); color:#8A6210; }
+.chip-hoja{ background:rgba(62,92,58,.14); color:var(--hoja); }
+.chip-carbon{ background:rgba(36,26,22,.08); color:var(--carbon); }
+
+/* ── Filtro de categorías (barra pegajosa) ───────────────────────────────── */
+.cat-pill{
+  display:inline-flex; align-items:center; gap:.45rem; padding:.6rem 1.05rem;
+  border-radius:999px; font-size:.82rem; font-weight:700; white-space:nowrap;
+  border:1.5px solid rgba(36,26,22,.14); color:rgba(36,26,22,.72); background:#fff;
+  transition:all .25s;
+}
+.cat-pill:hover{ border-color:var(--rojo); color:var(--rojo); }
+.cat-pill.is-active{ background:var(--rojo); border-color:var(--rojo); color:var(--crema); }
+
+/* ── Formularios ─────────────────────────────────────────────────────────── */
+.field{ display:block; margin-bottom:1rem; }
+.label{ display:block; font-size:.72rem; font-weight:800; letter-spacing:.14em; text-transform:uppercase; color:rgba(36,26,22,.55); margin-bottom:.4rem; }
+.input, .select, .textarea{
+  width:100%; border-radius:.85rem; border:1.5px solid rgba(36,26,22,.15);
+  background:#fff; padding:.8rem 1rem; font-size:.925rem; color:var(--carbon);
+  transition:border-color .2s, box-shadow .2s;
+}
+.input:focus, .select:focus, .textarea:focus{
+  outline:none; border-color:var(--rojo); box-shadow:0 0 0 4px rgba(183,32,42,.12);
+}
+.textarea{ min-height:6rem; resize:vertical; }
+.help{ font-size:.75rem; color:rgba(36,26,22,.5); margin-top:.35rem; }
+.err{ font-size:.78rem; color:var(--rojo); margin-top:.35rem; font-weight:600; }
+
+/* Tarjetas seleccionables (tipo de entrega / método de pago) */
+.pick{
+  position:relative; display:block; cursor:pointer; border-radius:1.1rem;
+  border:1.5px solid rgba(36,26,22,.14); background:#fff; padding:1.1rem 1.2rem;
+  transition:all .25s;
+}
+.pick:hover{ border-color:rgba(183,32,42,.5); }
+.pick input{ position:absolute; opacity:0; pointer-events:none; }
+.pick input:checked ~ .pick__in{ color:var(--rojo); }
+.pick:has(input:checked){ border-color:var(--rojo); background:rgba(183,32,42,.04); box-shadow:0 0 0 3px rgba(183,32,42,.1); }
+
+/* ── Mensajes ────────────────────────────────────────────────────────────── */
+.flash{ border-radius:.9rem; padding:.85rem 1.1rem; font-size:.9rem; font-weight:600; border:1px solid; }
+.flash-ok{    background:rgba(62,92,58,.1);   border-color:rgba(62,92,58,.3);  color:#2C4429; }
+.flash-error{ background:rgba(183,32,42,.08); border-color:rgba(183,32,42,.3); color:var(--rojo-dark); }
+.flash-info{  background:rgba(224,165,38,.12);border-color:rgba(224,165,38,.4); color:#7A5A0E; }
+
+/* ── Estados de pedido ───────────────────────────────────────────────────── */
+.state{ display:inline-flex; align-items:center; gap:.4rem; padding:.28rem .7rem; border-radius:999px;
+        font-size:.7rem; font-weight:800; letter-spacing:.04em; white-space:nowrap; }
+.state::before{ content:''; width:.45rem; height:.45rem; border-radius:999px; background:currentColor; }
+.state-recibido{    background:rgba(36,26,22,.08);  color:#4A3830; }
+.state-confirmado{  background:rgba(224,165,38,.18); color:#8A6210; }
+.state-preparacion{ background:rgba(224,165,38,.22); color:#7A5A0E; }
+.state-camino{      background:rgba(37,99,235,.12);  color:#1D4ED8; }
+.state-listo{       background:rgba(37,99,235,.12);  color:#1D4ED8; }
+.state-entregado{   background:rgba(62,92,58,.14);   color:#2C4429; }
+.state-cancelado{   background:rgba(183,32,42,.12);  color:var(--rojo-dark); }
+.state-pagado{      background:rgba(62,92,58,.14);   color:#2C4429; }
+.state-pendiente{   background:rgba(224,165,38,.2);  color:#7A5A0E; }
+.state-fallido{     background:rgba(183,32,42,.12);  color:var(--rojo-dark); }
+
+/* ── Marquesina ──────────────────────────────────────────────────────────── */
+.marquee{ overflow:hidden; }
+.marquee__track{ display:flex; align-items:center; gap:1.4rem; white-space:nowrap; width:max-content;
+                 animation:marquee 38s linear infinite; }
+.marquee__dot{ opacity:.5; }
+@keyframes marquee{ from{ transform:translateX(0); } to{ transform:translateX(-50%); } }
+
+/* ── Footer ──────────────────────────────────────────────────────────────── */
+.footer-h{ font-family:'Fraunces',serif; font-weight:700; color:var(--crema); font-size:1.05rem; margin-bottom:1rem; }
+.footer-a{ transition:color .2s; }
+.footer-a:hover{ color:var(--maiz); }
+.social{ width:2.5rem; height:2.5rem; display:grid; place-items:center; border-radius:999px;
+         border:1px solid rgba(246,240,226,.2); color:var(--crema); transition:all .25s; }
+.social:hover{ background:var(--rojo); border-color:var(--rojo); transform:translateY(-3px); }
+
+/* ── FAB WhatsApp ────────────────────────────────────────────────────────── */
+.wa-fab{
+  position:fixed; right:1.1rem; bottom:1.1rem; z-index:50;
+  width:3.5rem; height:3.5rem; border-radius:999px; display:grid; place-items:center;
+  background:#25D366; color:#fff; box-shadow:0 14px 30px -12px rgba(37,211,102,.8);
+  transition:transform .3s;
+}
+.wa-fab:hover{ transform:scale(1.08) rotate(-6deg); }
+@media (max-width:640px){ .wa-fab{ bottom:5.2rem; } }
+
+/* ── Cursor personalizado (sólo puntero fino) ────────────────────────────── */
+.cursor-dot,.cursor-ring{ display:none; }
+@media (hover:hover) and (pointer:fine){
+  .cursor-dot,.cursor-ring{
+    display:block; position:fixed; top:0; left:0; z-index:9999; pointer-events:none;
+    border-radius:999px; transform:translate(-50%,-50%);
+  }
+  .cursor-dot{ width:6px; height:6px; background:var(--rojo); }
+  .cursor-ring{ width:34px; height:34px; border:1.5px solid rgba(183,32,42,.5);
+                transition:width .3s, height .3s, background-color .3s, border-color .3s; }
+  .cursor-ring.is-hover{ width:56px; height:56px; background:rgba(183,32,42,.12); border-color:transparent; }
+}
+
+/* ── Barra inferior del carrito en móvil ─────────────────────────────────── */
+.cart-bar{
+  position:fixed; left:0; right:0; bottom:0; z-index:45;
+  background:var(--carbon); color:var(--crema);
+  padding:.85rem 1rem calc(.85rem + env(safe-area-inset-bottom));
+  display:flex; align-items:center; gap:.9rem;
+  box-shadow:0 -12px 30px -20px rgba(0,0,0,.9);
+  transform:translateY(110%); transition:transform .4s cubic-bezier(.2,.8,.2,1);
+}
+.cart-bar.is-on{ transform:translateY(0); }
+@media (min-width:1024px){ .cart-bar{ display:none; } }
+
+/* ── Línea de tiempo del pedido ──────────────────────────────────────────── */
+.track{ display:flex; gap:0; }
+.track__step{ flex:1; text-align:center; position:relative; padding-top:2.1rem; }
+.track__step::before{
+  content:''; position:absolute; top:.55rem; left:50%; width:1rem; height:1rem;
+  transform:translateX(-50%); border-radius:999px; background:var(--crema-3); border:2px solid var(--crema-3);
+  z-index:2;
+}
+.track__step::after{
+  content:''; position:absolute; top:1.05rem; left:-50%; width:100%; height:2px; background:var(--crema-3); z-index:1;
+}
+.track__step:first-child::after{ display:none; }
+.track__step.done::before{ background:var(--rojo); border-color:var(--rojo); }
+.track__step.done::after{ background:var(--rojo); }
+.track__step.now::before{ background:var(--maiz); border-color:var(--maiz); box-shadow:0 0 0 6px rgba(224,165,38,.25); }
+
+/* ── Tablas del panel ────────────────────────────────────────────────────── */
+.tbl{ width:100%; border-collapse:separate; border-spacing:0; font-size:.875rem; }
+.tbl th{ text-align:left; font-size:.68rem; font-weight:800; letter-spacing:.13em; text-transform:uppercase;
+         color:rgba(36,26,22,.45); padding:.7rem .85rem; border-bottom:1px solid rgba(36,26,22,.1); }
+.tbl td{ padding:.8rem .85rem; border-bottom:1px solid rgba(36,26,22,.07); vertical-align:middle; }
+.tbl tbody tr{ transition:background-color .2s; }
+.tbl tbody tr:hover{ background:rgba(183,32,42,.035); }
+.card{ background:#fff; border:1px solid rgba(36,26,22,.09); border-radius:1.1rem; }
+
+/* Impresión de comanda */
+@media print{
+  .no-print{ display:none !important; }
+  body{ background:#fff; }
+}
