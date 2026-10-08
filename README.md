@@ -1,121 +1,100 @@
-# Albenzu · Tradición Paisa — pedidos en línea + CRM
+# Albenzu · Tradición Paisa
 
-Maqueta funcional para **Restaurante Albenzu** (Av. 80 # 32 - 98, Nueva Villa de Aburrá,
-Medellín · desde 1982). Cubre lo que pidió el cliente: una web donde la gente ve todos los
-platos con precios, arma su pedido, elige **domicilio o para recoger**, paga **con tarjeta o
-en efectivo**, y un **panel interno (CRM)** donde el restaurante gestiona todo.
+**Pedidos en línea y CRM para Restaurante Albenzu**, cocina paisa en Medellín desde 1982. Los clientes ven la carta con precios, arman su pedido, eligen **domicilio o recoger** y pagan **con tarjeta o en efectivo**; el restaurante lo gestiona todo desde un panel interno.
 
----
+![PHP](https://img.shields.io/badge/PHP-8.0+-777BB4?style=for-the-badge&logo=php&logoColor=white)
+![SQLite](https://img.shields.io/badge/SQLite-003B57?style=for-the-badge&logo=sqlite&logoColor=white)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)
+![Alpine.js](https://img.shields.io/badge/Alpine.js-8BC0D0?style=for-the-badge&logo=alpinedotjs&logoColor=black)
+![GSAP](https://img.shields.io/badge/GSAP-88CE02?style=for-the-badge&logo=greensock&logoColor=black)
 
-**En línea:** https://davidburgos.dev/albenzu · panel https://davidburgos.dev/albenzu/admin
-
----
-
-## Cómo levantarlo
-
-```bash
-C:\xampp\php\php.exe database/seed.php
-```
-
-```bash
-C:\xampp\php\php.exe -S 127.0.0.1:8795 -t "C:\Users\USER\OneDrive\Documentos\Desarrollo\presentaciones para clientes\albenzu"
-```
-
-- Sitio → http://127.0.0.1:8795
-- Panel → http://127.0.0.1:8795/admin · **admin / albenzu2025**
-
-El `seed.php` **borra y recrea** la base de datos con la carta completa y 6 pedidos de ejemplo
-para que el panel no arranque vacío.
+**En línea:** [davidburgos.dev/albenzu](https://davidburgos.dev/albenzu) · panel en [/albenzu/admin](https://davidburgos.dev/albenzu/admin)
 
 ---
 
-## Qué hay
+## Características
 
 ### Sitio público
 | Página | Qué hace |
 |---|---|
-| `index.php` | Landing: hero animado, cómo pedir, destacados, historia, categorías, reseñas, mapa |
-| `carta.php` | Carta completa agrupada por categoría, filtro pegajoso y buscador |
-| `carrito.php` | Líneas del pedido, cantidades, cupón, domicilio/recoger, sugeridos |
-| `checkout.php` | Datos del cliente, dirección, método de pago, validación server-side |
-| `pasarela.php` | Pasarela de pago **simulada** (ver abajo) |
-| `pedido.php` | Confirmación + línea de tiempo del estado + historial |
-| `seguimiento.php` | Consulta por código `ALB-XXXX` |
+| `index.php` | Landing: hero animado, cómo pedir, destacados, historia, categorías, reseñas y mapa |
+| `carta.php` | Carta completa por categoría, filtro fijo y buscador |
+| `carrito.php` | Cantidades, cupón, domicilio o recoger, sugeridos |
+| `checkout.php` | Datos del cliente, dirección y método de pago, con validación en servidor |
+| `pasarela.php` | Pasarela de pago **simulada** (aprobado / rechazado) |
+| `pedido.php` | Confirmación con línea de tiempo del estado |
+| `seguimiento.php` | Consulta del pedido por código `ALB-XXXX` |
 | `nosotros.php`, `contacto.php` | Historia de la casa y ubicación |
 
-Cada plato se puede agregar de un clic o abrir un modal para sumarle **adiciones**
-(chicharrón, aguacate, hoga'o…) y una **nota para la cocina**.
+Cada plato se agrega en un clic o con un modal para sumar **adiciones** (chicharrón, aguacate, hogao…) y una **nota para la cocina**.
+
+Estados del pedido:
+- Domicilio: `recibido → confirmado → en preparación → en camino → entregado`
+- Recoger: `recibido → confirmado → en preparación → listo para recoger → entregado`
 
 ### Panel / CRM (`/admin`)
 | Módulo | Qué hace |
 |---|---|
-| **Resumen** | Ventas del día y del mes, ticket promedio, pedidos en curso, ventas de los últimos 7 días, reparto domicilio/recoger, platos más vendidos, pendiente de cobro |
-| **Pedidos** | Listado con filtros (estado, tipo, pago, fechas, búsqueda), cambio de estado en un clic, **exportar CSV** |
-| **Pedido (detalle)** | Comanda imprimible, cambio de estado con nota, marcar pago y referencia, editar dirección/domicilio/notas, trazabilidad completa, historial del cliente al lado |
-| **Carta** | CRUD de platos: precio, oferta, foto, etiquetas, destacado, **agotado del día**, visible/oculto |
-| **Categorías** | CRUD de categorías y de adiciones |
-| **Clientes** | CRM: ficha por cliente con total gastado, ticket promedio, platos favoritos, historial y notas internas. Segmentación automática: recurrente / nuevo / dormido (+30 días) |
-| **Cupones** | CRUD de cupones (% o valor fijo), compra mínima, usos máximos, vencimiento |
-| **Ajustes** | Valor del domicilio, domicilio gratis desde, pedido mínimo, tiempos de entrega, horario, abrir/cerrar el canal en línea, activar o desactivar cada método de pago |
+| **Resumen** | Ventas del día y del mes, ticket promedio, pedidos en curso, últimos 7 días, domicilio vs. recoger, platos más vendidos |
+| **Pedidos** | Filtros por estado, tipo, pago y fechas; cambio de estado en un clic; exportar CSV |
+| **Detalle de pedido** | Comanda imprimible, estado con nota, registro de pago, trazabilidad e historial del cliente |
+| **Carta** | CRUD de platos: precio, oferta, foto, etiquetas, destacado, agotado del día, visible/oculto |
+| **Categorías** | CRUD de categorías y adiciones |
+| **Clientes** | Ficha con total gastado, favoritos, historial y notas; segmentos recurrente / nuevo / dormido |
+| **Cupones** | Porcentaje o valor fijo, compra mínima, usos máximos, vencimiento |
+| **Ajustes** | Domicilio, pedido mínimo, tiempos, horario, abrir/cerrar el canal y métodos de pago |
 
-Los estados siguen el flujo real y cambian según el tipo de pedido:
-`recibido → confirmado → en preparación → en camino → entregado` (domicilio)
-`recibido → confirmado → en preparación → listo para recoger → entregado` (recoger)
-
----
-
-## Sobre el pago con tarjeta
-
-El flujo está completo de punta a punta, pero contra una **pasarela simulada**
-(`pasarela.php`), claramente marcada como demo. **No pide ni guarda datos de tarjeta**:
-muestra los dos desenlaces (aprobado / rechazado) para que el cliente vea cómo se comporta
-el sistema en cada caso.
-
-Para conectar la pasarela real (Wompi o Bold):
-
-1. Reemplazar los botones de `pasarela.php` por el redirect firmado del proveedor.
-2. En el retorno o webhook, llamar a `marcar_pago($pedidoId, 'pagado'|'fallido', $referencia)`.
-3. Poner `PAYMENT_ENABLED = true` en `config/config.php`.
-
-Los datos de la tarjeta viajan siempre directo al proveedor: el servidor del restaurante
-nunca los toca.
-
----
-
-## Pendientes que dependen del cliente
-
-- **Logo.** El logo del perfil está protegido contra descarga, así que el wordmark está
-  reconstruido en SVG (`logo_svg()` en `includes/functions.php`) siguiendo el original
-  —círculo crema, «Albenzu» en script rojo, «Frijoles con alma paisa» debajo—. Al recibir el
-  archivo original se reemplaza esa función y listo.
-- **Fotos de los platos.** No hay fotos en el repo; mientras tanto cada plato muestra una
-  ilustración generada con la paleta de la casa, y el hero y la sección de historia usan
-  escenas vectoriales (`includes/arte.php`). Las fotos reales se suben desde el panel, plato
-  por plato, o se dejan en `assets/img/fotos/`.
-- **Celular de WhatsApp.** El perfil sólo publica el enlace corto `wa.me/message/…`, que no
-  admite mensaje precargado. Al tener el celular comercial se pone en `WHATSAPP_NUMBER`
-  (`config/config.php`) y todos los CTA pasan a abrir el chat con el mensaje ya escrito.
-- **Correo y NIT** para las facturas y los pies de página legales.
-
-## Sobre la carta
-
-Los **precios y nombres de los platos son los reales** publicados por el restaurante en su
-canal de domicilios (bandejas, cazuelas, arepas Re-Paisas, asados, antojitos, desayunos,
-infantil, bebidas y adiciones). Las **descripciones son redacción propia** para la demo: el
-cliente las ajusta desde el panel sin tocar código.
-
----
+La carta usa los **nombres y precios reales** publicados por el restaurante.
 
 ## Stack
 
-PHP puro (8.0+) · SQLite vía PDO · Tailwind CDN · Alpine.js · GSAP + ScrollTrigger + Lenis.
-Sin build, sin dependencias que instalar: se sube por FTP y funciona.
+PHP 8.0+ sin framework · SQLite vía PDO · Tailwind CSS (CDN) · Alpine.js · GSAP + ScrollTrigger + Lenis.
+Sin build ni dependencias que instalar.
+
+## Estructura del proyecto
 
 ```
-config/     configuración y conexión
-database/   schema.sql + seed.php
-includes/   functions.php, componentes.php, arte.php, header/footer
-assets/     css, js, imágenes
-admin/      panel + CRM
-data/       albenzu.sqlite (ignorado por git)
+albenzu/
+├── index.php, carta.php, carrito.php, checkout.php, pasarela.php, pedido.php, seguimiento.php …
+├── admin/      panel + CRM (pedidos, productos, categorías, clientes, cupones, ajustes)
+├── config/     config.php (ajustes y credenciales demo) · db.php
+├── database/   schema.sql · seed.php
+├── includes/   functions.php, componentes.php, arte.php, header/footer
+├── assets/     css, js, img
+└── data/       albenzu.sqlite (se genera, no se versiona)
 ```
+
+## Cómo correrlo en local
+
+```bash
+# 1. Crear la base con la carta completa y 6 pedidos de ejemplo
+php database/seed.php
+
+# 2. Levantar el servidor
+php -S localhost:8000
+```
+
+- Sitio: http://localhost:8000
+- Panel: http://localhost:8000/admin
+
+> `seed.php` **borra y recrea** la base de datos cada vez que se ejecuta.
+
+### Pago con tarjeta
+
+El flujo completo funciona contra `pasarela.php`, una pasarela **simulada** que no pide ni guarda datos de tarjeta. Para conectar una real (Wompi o Bold): reemplazar los botones de `pasarela.php` por el redirect del proveedor, llamar a `marcar_pago()` en el retorno o webhook y activar `PAYMENT_ENABLED` en `config/config.php`.
+
+## Acceso de demostración
+
+| Usuario | Contraseña |
+|---|---|
+| `admin` | `albenzu2025` |
+
+Credenciales **solo de demostración**, definidas en `config/config.php`. Cámbialas antes de cualquier uso real.
+
+## Autor
+
+**David Burgos** — desarrollador full-stack, Medellín.
+
+- Portafolio: [davidburgos.dev](https://davidburgos.dev)
+- GitHub: [@burgosdavid057-art](https://github.com/burgosdavid057-art)
+- LinkedIn: [David Burgos](https://www.linkedin.com/in/david-burgos-ab673433a/)
